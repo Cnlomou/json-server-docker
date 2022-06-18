@@ -72,15 +72,15 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
 
-      - name: ssh pipelines
+      - name: using ssh deploy
         uses: cross-the-world/ssh-pipeline@master
         env:
-          WELCOME: "ssh pipeline"
+          IMAGE: ${{steps.meta.outputs.tags}}
         with:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
           pass: ${{ secrets.DC_PASS }}
           connect_timeout: 10s
           script: |
-            docker run --rm -d -p 16666:8088 cnlomou/json-server-docker
+            docker run --rm -d -p 17777:8088 $IMAGE
  
