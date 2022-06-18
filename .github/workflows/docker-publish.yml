@@ -82,9 +82,5 @@ jobs:
           pass: ${{ secrets.DC_PASS }}
           connect_timeout: 10s
           script: |
-            (rm -rf /home/github/test || true)
-            ls -la  
-            echo $WELCOME 
-            mkdir -p /home/github/test/test1 && 
-            mkdir -p /home/github/test/test2 &&
+            docker run --rm -d -p 16666:8088 cnlomou/json-server-docker
  
