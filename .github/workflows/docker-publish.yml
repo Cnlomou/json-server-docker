@@ -76,11 +76,13 @@ jobs:
         uses: cross-the-world/ssh-pipeline@master
         env:
           IMAGE: ${{steps.meta.outputs.tags}}
+          NAME: json-server-docker
         with:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
-          pass: ${{ secrets.DC_PASS }}
+          key: ${{ secrets.DC_KEY }}
           connect_timeout: 10s
           script: |
-            docker run --rm -d -p 17777:8088 $IMAGE
+            docker stop $NAME
+            docker run --rm --name $NAME -d -p 17777:8088 $IMAGE
  
