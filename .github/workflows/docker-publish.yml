@@ -71,6 +71,8 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=registry,ref=${{ steps.meta.outputs.tags }}
+          cache-to: type=registry,ref=${{ steps.meta.outputs.tags }},mode=max
 
       - name: using ssh deploy
         uses: cross-the-world/ssh-pipeline@master
