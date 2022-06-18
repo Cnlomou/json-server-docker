@@ -56,7 +56,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_NAME }}
           password: ${{ secrets.DOCKER_HUB_PAT }}
-
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          tags: latest
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -65,7 +70,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: cnlomou/${{ env.IMAGE_NAME }}:V1
+          tags: ${{ steps.meta.outputs.tags }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
